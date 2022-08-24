@@ -4,16 +4,29 @@ import bcryptjs from "bcryptjs"
 import { User } from "./models/user";
 import { sequelize } from "./utils/database";
 import { router as authRoutes } from "./routes/auth";
+import {router as messageRoutes} from "./routes/message";
+const session=require('express-session');
+
 const app = express();
 app.use(bodyParser.json());
-
+app.use(session({secret:"my secret",resave:false,saveUnitialized:false}));
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader(
+        'Access-Control-Allow-Methods',
+        '*'
+    );
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    next();
+});
 app.get("/", (req, res) => {
     res.status(200).json({ message: "ok" });
 });
 
 app.use("/admin",authRoutes);
+app.use("/message",messageRoutes);
 
-sequelize.sync({ force:true }).then((result: any) => {
+sequelize.sync().then((result: any) => {
     return User.count();
 })
     .then(async (res: any) => {

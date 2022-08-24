@@ -18,13 +18,23 @@ const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const user_1 = require("./models/user");
 const database_1 = require("./utils/database");
 const auth_1 = require("./routes/auth");
+const message_1 = require("./routes/message");
+const session = require('express-session');
 const app = (0, express_1.default)();
 app.use(body_parser_1.default.json());
+app.use(session({ secret: "my secret", resave: false, saveUnitialized: false }));
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    next();
+});
 app.get("/", (req, res) => {
     res.status(200).json({ message: "ok" });
 });
 app.use("/admin", auth_1.router);
-database_1.sequelize.sync({ force: true }).then((result) => {
+app.use("/message", message_1.router);
+database_1.sequelize.sync().then((result) => {
     return user_1.User.count();
 })
     .then((res) => __awaiter(void 0, void 0, void 0, function* () {

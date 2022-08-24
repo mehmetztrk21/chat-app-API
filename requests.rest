@@ -6,9 +6,65 @@ POST  http://localhost:3000/admin/signup
 Content-Type: application/json
 
 {
-    "name":"Ali",
+    "name":"Veli",
     "surname":"Can",
-    "email":"ali@gmail.com",
+    "email":"veli@gmail.com",
     "password":"123",
     "imageUrl":"https://mui.com/static/images/avatar/2.jpg"
 }
+
+###
+
+POST  http://localhost:3000/admin/login
+Content-Type: application/json
+
+{
+  
+    "email":"mehmet.ztrk2134@gmail.com",
+    "password":"123"
+}
+
+
+###
+
+GET http://localhost:3000/message/list
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1lIjoiTWVobWV0Iiwic3VybmFtZSI6IsOWenTDvHJrIiwiZW1haWwiOiJtZWhtZXQuenRyazIxMzRAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmEkMTIkNEZLU0I1RFVFcUhtUWZLY3ZtVXRnT0FRRzE4TGRPTFFGam54MkdBNlgyNlVnd1p3VkpmcGkiLCJpbWFnZVVybCI6Imh0dHBzOi8vcHBzLndoYXRzYXBwLm5ldC92L3Q2MS4yNDY5NC0yNC8yOTQ5MDAyNjRfMTc2NTI3NTk3Mzg0NzEzMV82NDkzOTU1MDk1NDg4MzA0MDY2X24uanBnP3N0cD1kc3QtanBnX3M5Nng5NiZjY2I9MTEtNCZvaD0wMV9BVnhJYkFUS1FERDZrUE1lRi05bG9rQnowSXBRWlU0QTBBaXVDQTJKcmFxUjVRJm9lPTYzMTY3M0JEIiwiY3JlYXRlZEF0IjoiMjAyMi0wOC0yNFQxNDowNjoxOC42NzNaIiwidXBkYXRlZEF0IjoiMjAyMi0wOC0yNFQxNDowNjoxOC42NzNaIn0sImlhdCI6MTY2MTM3MzgyMSwiZXhwIjoxNjYxMzc3NDIxfQ.RvNeMEgB-OBDPtgZ7dA2uoWFW7PMuPz2SkueLKw7Ncg   
+
+
+
+###
+
+
+POST  http://localhost:3000/message/send
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1lIjoiTWVobWV0Iiwic3VybmFtZSI6IsOWenTDvHJrIiwiZW1haWwiOiJtZWhtZXQuenRyazIxMzRAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmEkMTIkNEZLU0I1RFVFcUhtUWZLY3ZtVXRnT0FRRzE4TGRPTFFGam54MkdBNlgyNlVnd1p3VkpmcGkiLCJpbWFnZVVybCI6Imh0dHBzOi8vcHBzLndoYXRzYXBwLm5ldC92L3Q2MS4yNDY5NC0yNC8yOTQ5MDAyNjRfMTc2NTI3NTk3Mzg0NzEzMV82NDkzOTU1MDk1NDg4MzA0MDY2X24uanBnP3N0cD1kc3QtanBnX3M5Nng5NiZjY2I9MTEtNCZvaD0wMV9BVnhJYkFUS1FERDZrUE1lRi05bG9rQnowSXBRWlU0QTBBaXVDQTJKcmFxUjVRJm9lPTYzMTY3M0JEIiwiY3JlYXRlZEF0IjoiMjAyMi0wOC0yNFQxNDowNjoxOC42NzNaIiwidXBkYXRlZEF0IjoiMjAyMi0wOC0yNFQxNDowNjoxOC42NzNaIn0sImlhdCI6MTY2MTM2NzExNywiZXhwIjoxNjYxMzcwNzE3fQ.os3R-b5Ww5wx7dpjZJAW7bpKnRL-pZdcUkruTHk1z0M   
+
+{
+  
+    "content":"containing Lorem Ipsum passages, and more recently with desktop publishing software,containing Lorem Ipsum passages, and more recently with desktop publishing software,containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+    "reciverId":2
+}
+
+###
+
+POST  http://localhost:3000/message/send
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyLCJuYW1lIjoiQWxpIiwic3VybmFtZSI6IkNhbiIsImVtYWlsIjoiYWxpQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJhJDEyJEpEaXVzSjRPaGhhRGRnak1GNDl6Uy5vVlYvUGhUMHZVckNYSVk1LnpiY29lTHVJSjFpS1BxIiwiaW1hZ2VVcmwiOiJodHRwczovL211aS5jb20vc3RhdGljL2ltYWdlcy9hdmF0YXIvMi5qcGciLCJjcmVhdGVkQXQiOiIyMDIyLTA4LTI0VDE0OjA2OjMxLjU4MloiLCJ1cGRhdGVkQXQiOiIyMDIyLTA4LTI0VDE0OjA2OjMxLjU4MloifSwiaWF0IjoxNjYxMzY5NjgxLCJleHAiOjE2NjEzNzMyODF9.96mu_kEA3MI4Fxstqn_nKEREqsnJbjZv-Clprbcv0lQ   
+
+{
+  
+    "content":"Aldus PageMaker including versions of Lorem Ipsum.",
+    "reciverId":1
+}
+
+###
+
+POST http://localhost:3000/message/chat
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1lIjoiTWVobWV0Iiwic3VybmFtZSI6IsOWenTDvHJrIiwiZW1haWwiOiJtZWhtZXQuenRyazIxMzRAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmEkMTIkNEZLU0I1RFVFcUhtUWZLY3ZtVXRnT0FRRzE4TGRPTFFGam54MkdBNlgyNlVnd1p3VkpmcGkiLCJpbWFnZVVybCI6Imh0dHBzOi8vcHBzLndoYXRzYXBwLm5ldC92L3Q2MS4yNDY5NC0yNC8yOTQ5MDAyNjRfMTc2NTI3NTk3Mzg0NzEzMV82NDkzOTU1MDk1NDg4MzA0MDY2X24uanBnP3N0cD1kc3QtanBnX3M5Nng5NiZjY2I9MTEtNCZvaD0wMV9BVnhJYkFUS1FERDZrUE1lRi05bG9rQnowSXBRWlU0QTBBaXVDQTJKcmFxUjVRJm9lPTYzMTY3M0JEIiwiY3JlYXRlZEF0IjoiMjAyMi0wOC0yNFQxNDowNjoxOC42NzNaIiwidXBkYXRlZEF0IjoiMjAyMi0wOC0yNFQxNDowNjoxOC42NzNaIn0sImlhdCI6MTY2MTM2MzQwMCwiZXhwIjoxNjYxMzY3MDAwfQ.z_4FNjT2KAEsB2baLNJM1sxt2QTol7boK8SO-OG481g
+
+{
+    "userId":2
+}
+
