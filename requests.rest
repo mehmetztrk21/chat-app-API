@@ -1,0 +1,14 @@
+GET http://localhost:3000/
+
+###
+
+POST  http://localhost:3000/admin/signup
+Content-Type: application/json
+
+{
+    "name":"Ali",
+    "surname":"Can",
+    "email":"ali@gmail.com",
+    "password":"123",
+    "imageUrl":"https://mui.com/static/images/avatar/2.jpg"
+}
