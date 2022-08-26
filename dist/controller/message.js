@@ -12,12 +12,29 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.chat = exports.createMessage = exports.messageList = void 0;
 const message_1 = require("../models/message");
 const sequelize_1 = require("sequelize");
+const user_1 = require("../models/user");
 const messageList = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("hghg", req.session);
     const userId = req.session.userId;
     try {
         const messages = yield message_1.Message.findAll({ where: { [sequelize_1.Op.or]: [{ senderId: userId }, { reciverId: userId }] }, order: [["createdAt", "desc"]] });
-        res.status(200).json({ messages: messages });
+        let ids = [];
+        let msgs = [];
+        for (const item of messages) {
+            if (item.reciverId != userId || item.senderId != userId) {
+                if (!ids.find((i) => i == item.reciverId) || !ids.find((i) => i == item.senderId)) {
+                    ids.push(item.reciverId, item.senderId);
+                    msgs.push(item.dataValues);
+                }
+            }
+        }
+        for (const id of ids) {
+            if (id != userId) {
+                const user = yield user_1.User.findByPk(id);
+                const index = msgs.findIndex((i) => i.reciverId == id || i.senderId == id);
+                msgs[index] = (Object.assign(Object.assign({}, msgs[index]), { user: user }));
+            }
+        }
+        res.status(200).json({ messages: msgs });
     }
     catch (error) {
         console.log(error);
@@ -67,42 +84,3 @@ const chat = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.chat = chat;
-// export const list = async (req: any, res: any, next: any) => {
-//     const chatUser = req.body.userId;
-//     const userId = req.session.userId;
-//     let result: any = []
-//     try {
-//         const msgs: any = await Message.findAll({ where: { [Op.or]: [{ senderId: userId }, { reciverId: userId }] }, order: [["createdAt", "desc"]] });
-//         console.log("msqs",msgs);
-//         for (const item of msgs) {
-//             if (item) {
-//                 const message: any = await Message.findAll({
-//                     where: {
-//                         [Op.or]: [
-//                             {
-//                                 [Op.and]: [
-//                                     { senderId: userId }, { reciverId: item.reciverId }
-//                                 ]
-//                             },
-//                             {
-//                                 [Op.and]: [
-//                                     { senderId: item.senderId }, { reciverId: userId }
-//                                 ]
-//                             }
-//                         ]
-//                     }
-//                     , order: [["createdAt", "desc"]],
-//                     limit: 1
-//                 });
-//                 if (message) {
-//                     if (!result.find((i: any) => (i.reciverId == message.reciverId && i.senderId==message.senderId) || (i.reciverId == message.senderId && i.senderId==message.reciverId)))
-//                         result.push(message);
-//                 }
-//             }
-//         }
-//         res.status(200).json({ messages: result });
-//     } catch (error) {
-//         console.log(error);
-//         res.sendStatus(500);
-//     }
-// }

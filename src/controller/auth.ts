@@ -13,22 +13,23 @@ export const signUp = async (req: any, res: any, next: any) => {
         res.status(500);
     }
 };
-export const login=async(req:any,res:any,next:any)=>{
-    const email=req.body.email;
-    const password=req.body.password;
+export const login = async (req: any, res: any, next: any) => {
+    const email = req.body.email;
+    const password = req.body.password;
     try {
-        const user:any=await User.findOne({where:{email:email}});
-        if(user){
-            const isEqual=await bcryptjs.compare(password,user.password);
-            if(isEqual){
-                const token=jwt.sign(
+        const user: any = await User.findOne({ where: { email: email } });
+        if (user) {
+            const isEqual = await bcryptjs.compare(password, user.password);
+            if (isEqual) {
+                const token = jwt.sign(
                     {
-                        user:user
+                        user: user
                     },
                     "somesupersecretsecret",
-                    {expiresIn:"1h"}
+                    { expiresIn: "1h" }
                 );
-                return res.status(200).json({token:token,userId:user.id});
+                req.session.user = user
+                return res.status(200).json({ token: token, user: user });
             }
             res.status(401).json("Password not correct");
         }
@@ -37,4 +38,18 @@ export const login=async(req:any,res:any,next:any)=>{
         console.log(error);
         res.status(500);
     }
+}
+
+export const findByPk = async (req: any, res: any, next: any) => {
+    const token = req.body.token;
+    let decodedToken: any;
+    try {
+        decodedToken = jwt.verify(token, "somesupersecretsecret");
+    } catch (error) {
+        return res.status(403).json({ message: "Not authenticated." });
+    }
+    if (!decodedToken) {
+        return res.status(401).json({ message: "Not authenticated." });
+    }
+    res.status(200).json({user:decodedToken.user});
 }

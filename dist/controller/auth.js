@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.login = exports.signUp = void 0;
+exports.findByPk = exports.login = exports.signUp = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const user_1 = require("../models/user");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
@@ -40,7 +40,8 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
                 const token = jsonwebtoken_1.default.sign({
                     user: user
                 }, "somesupersecretsecret", { expiresIn: "1h" });
-                return res.status(200).json({ token: token, userId: user.id });
+                req.session.user = user;
+                return res.status(200).json({ token: token, user: user });
             }
             res.status(401).json("Password not correct");
         }
@@ -52,3 +53,18 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.login = login;
+const findByPk = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const token = req.body.token;
+    let decodedToken;
+    try {
+        decodedToken = jsonwebtoken_1.default.verify(token, "somesupersecretsecret");
+    }
+    catch (error) {
+        return res.status(403).json({ message: "Not authenticated." });
+    }
+    if (!decodedToken) {
+        return res.status(401).json({ message: "Not authenticated." });
+    }
+    res.status(200).json({ user: decodedToken.user });
+});
+exports.findByPk = findByPk;

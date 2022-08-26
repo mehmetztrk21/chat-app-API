@@ -5,6 +5,7 @@ import { User } from "./models/user";
 import { sequelize } from "./utils/database";
 import { router as authRoutes } from "./routes/auth";
 import {router as messageRoutes} from "./routes/message";
+import { Message } from "./models/message";
 const session=require('express-session');
 
 const app = express();
@@ -14,7 +15,7 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader(
         'Access-Control-Allow-Methods',
-        '*'
+        'GET, POST, PUT, DELETE'
     );
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     next();
