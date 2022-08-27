@@ -42,6 +42,10 @@ database_1.sequelize.sync().then((result) => {
     if (res <= 0) {
         yield user_1.User.create({ name: "Mehmet", surname: "Öztürk", email: "mehmet.ztrk2134@gmail.com", password: yield bcryptjs_1.default.hash("123", 12), imageUrl: "https://pps.whatsapp.net/v/t61.24694-24/294900264_1765275973847131_6493955095488304066_n.jpg?stp=dst-jpg_s96x96&ccb=11-4&oh=01_AVxIbATKQDD6kPMeF-9lokBz0IpQZU4A0AiuCA2JraqR5Q&oe=631673BD" });
     }
-    app.listen(3000);
+    const server = app.listen(3000);
+    const io = require('./socket').init(server);
+    io.on('connection', socket => {
+        console.log('Client connected');
+    });
 }))
     .catch((err) => { console.log(err); });

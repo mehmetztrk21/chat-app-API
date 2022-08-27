@@ -1,6 +1,7 @@
 import { Message } from "../models/message";
 import { Op } from "sequelize";
 import { User } from "../models/user";
+const io = require('../socket');
 
 type messageBody = { reciverId: number, content: string }
 type message = {id:number,reciverId:number,senderId:number,content:string,createdAt:Date}
@@ -36,7 +37,8 @@ export const createMessage = async (req: any, res: any, next: any) => {
     const body = req.body as messageBody;
     const userId = req.session.userId;
     try {
-        await Message.create({ ...body, senderId: userId });
+        const new_msg=await Message.create({ ...body, senderId: userId });
+        io.getIO().emit("posts",{action:"create",msg:new_msg});
         res.status(201).json("Message forwarded.");
     } catch (error) {
         console.log(error);

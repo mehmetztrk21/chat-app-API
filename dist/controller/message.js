@@ -13,6 +13,7 @@ exports.chat = exports.createMessage = exports.messageList = void 0;
 const message_1 = require("../models/message");
 const sequelize_1 = require("sequelize");
 const user_1 = require("../models/user");
+const io = require('../socket');
 const messageList = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = req.session.userId;
     try {
@@ -46,7 +47,8 @@ const createMessage = (req, res, next) => __awaiter(void 0, void 0, void 0, func
     const body = req.body;
     const userId = req.session.userId;
     try {
-        yield message_1.Message.create(Object.assign(Object.assign({}, body), { senderId: userId }));
+        const new_msg = yield message_1.Message.create(Object.assign(Object.assign({}, body), { senderId: userId }));
+        io.getIO().emit("posts", { action: "create", msg: new_msg });
         res.status(201).json("Message forwarded.");
     }
     catch (error) {
