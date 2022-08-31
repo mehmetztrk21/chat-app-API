@@ -1,0 +1,7 @@
+version: "3.4"
+services:
+  chat-app-api:
+    container_name: dc-chat-app-api
+    build: .
+    ports:
+      - 3000:3000
