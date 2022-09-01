@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.chat = exports.createMessage = exports.messageList = void 0;
+exports.chat = exports.removeMessage = exports.createMessage = exports.messageList = void 0;
 const message_1 = require("../models/message");
 const sequelize_1 = require("sequelize");
 const user_1 = require("../models/user");
@@ -57,6 +57,25 @@ const createMessage = (req, res, next) => __awaiter(void 0, void 0, void 0, func
     }
 });
 exports.createMessage = createMessage;
+const removeMessage = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = req.params.id;
+    try {
+        const message = yield message_1.Message.findByPk(id);
+        if (message) {
+            yield message.destroy();
+            io.getIO().emit("posts", { action: "delete" });
+            res.status(200).json("Message deleted.");
+        }
+        else {
+            res.status(404).json({ message: "Message not found." });
+        }
+    }
+    catch (error) {
+        console.log(error);
+        res.sendStatus(500);
+    }
+});
+exports.removeMessage = removeMessage;
 const chat = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const chatUser = req.body.userId;
     const userId = req.session.userId;
