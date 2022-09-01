@@ -1,13 +1,11 @@
+import bcryptjs from "bcryptjs";
 import bodyParser from "body-parser";
 import express from "express";
-import bcryptjs from "bcryptjs"
 import { User } from "./models/user";
-import { sequelize } from "./utils/database";
 import { router as authRoutes } from "./routes/auth";
-import {router as messageRoutes} from "./routes/message";
-import { Message } from "./models/message";
+import { router as messageRoutes } from "./routes/message";
+import { sequelize } from "./utils/database";
 const session=require('express-session');
-
 const app = express();
 app.use(bodyParser.json());
 app.use(session({secret:"my secret",resave:false,saveUnitialized:false}));

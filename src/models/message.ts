@@ -1,4 +1,4 @@
-import  Sequelize  from "sequelize";
+import Sequelize from "sequelize";
 import { sequelize } from "../utils/database";
 
 export const Message=sequelize.define("message",{

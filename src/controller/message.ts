@@ -1,5 +1,5 @@
-import { Message } from "../models/message";
 import { Op } from "sequelize";
+import { Message } from "../models/message";
 import { User } from "../models/user";
 const io = require('../socket');
 
